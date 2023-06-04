@@ -1,2 +1,4 @@
-imgaug==0.4.0
-opencv-python==4.7.0.68
+imgaug
+pillow
+opencv-python
+
