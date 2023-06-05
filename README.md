@@ -12,3 +12,8 @@ docker build -t imgaug .
 docker run -it --rm -v $(PWD):/home/app imgaug
 ```
 
+* Run scripts
+```
+python3 hello.py
+```
+

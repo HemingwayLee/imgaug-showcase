@@ -16,7 +16,7 @@ seq = iaa.Sequential([
 
 # loop through images in folder
 for filename in os.listdir(path):
-    if filename.endswith('.jpg'):  # only apply to image files
+    if filename.endswith('.png'):  # only apply to image files
         # load image with Pillow library
         img = Image.open(os.path.join(path, filename))
         # convert image to numpy array
