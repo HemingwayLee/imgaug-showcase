@@ -2,22 +2,31 @@ import os
 from PIL import Image
 import numpy as np
 import imgaug.augmenters as iaa
+from pathlib import Path
 
-path = './images/'
+mySometimes10 = lambda aug: iaa.Sometimes(1.0, aug)
 
 seq = iaa.Sequential([
-    iaa.Resize({"height": 224, "width": 224}),
-    iaa.Fliplr(0.5),
-    iaa.GaussianBlur(sigma=(0, 1.0)),
-    iaa.Sometimes(0.5, iaa.AdditiveGaussianNoise(loc=0, scale=(0.0, 0.05), per_channel=0.5)),
+    mySometimes10(
+        iaa.KeepSizeByResize(iaa.Affine(
+            rotate=(-15,15),
+            mode='edge'
+        ))
+    ),
 ])
 
-for filename in os.listdir(path):
-    if filename.endswith('.png'):  
-        img = Image.open(os.path.join(path, filename))
+
+ori_path = './images/'
+filename = 'ranking.png'
+
+tar_path = './results/'
+Path(tar_path).mkdir(parents=True, exist_ok=True)
+
+for i in range(5):    
+    img = Image.open(os.path.join(ori_path, filename))
         
-        img_array = np.array(img)
-        aug_img = seq(image=img_array)
-        
-        aug_img = Image.fromarray(aug_img)
-        aug_img.save(os.path.join(path, 'aug_'+filename))
+    img_array = np.array(img)
+    aug_img = seq(image=img_array)
+    
+    aug_img = Image.fromarray(aug_img)
+    aug_img.save(os.path.join(tar_path, f'rotate_{i}_'+filename))
